@@ -1,0 +1,51 @@
+ampl: include "Project/masked_knapsack/biscuit_masked_knapsack.run";
+CPLEX 20.1.0.0: time=40000
+CPLEX 20.1.0.0: time limit with integer solution; objective 16300
+175270 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 10246.7, relmipgap = 0.628631
+biscuit_value = 16300
+
+sum{i in CUTTERS, n in N, m in M} y[n,m,i] = 23
+
+y [*,*,alpaca] (tr)
+:    52  74    :=
+40    1   0
+74    0   1
+
+ [*,*,dinosaur] (tr)
+:    10  43    :=
+61    1   0
+82    0   1
+
+ [*,*,heart] (tr)
+:    27  59  69  81    :=
+1     0   0   1   0
+20    0   1   0   0
+27    0   0   0   1
+42    1   0   0   0
+116   0   0   0   1
+
+ [*,*,man] (tr)
+:     3  38  43  60  81  97    :=
+10    0   0   0   0   1   0
+53    0   0   1   0   0   0
+59    0   0   0   0   0   1
+63    1   0   0   0   0   0
+83    0   1   0   0   0   0
+110   0   0   0   1   0   0
+
+ [*,*,square] (tr)
+:    41 104    :=
+16    0   1
+26    1   0
+
+ [*,*,tree] (tr)
+:     1   6  13  36  90  95    :=
+2     0   0   0   1   0   0
+20    0   1   0   0   0   0
+34    0   0   0   0   0   1
+41    1   0   0   0   0   0
+97    0   0   1   0   0   0
+103   0   0   0   0   1   0
+;

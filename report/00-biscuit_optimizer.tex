@@ -1,0 +1,59 @@
+%!TEX encoding = UTF-8 Unicode 
+%!TEX TS-program = pdflatex
+
+% Optimization Project: Biscuit Optimizer
+% Roberto Basla
+% Politecnico di Milano
+% A.Y. 2021/2022
+
+\documentclass[a4paper,12pt,english]{article} 
+\usepackage[utf8]{inputenc}
+\usepackage{babel}
+\usepackage[T1]{fontenc}
+\usepackage{indentfirst}
+\usepackage{upquote}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{graphicx} 
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{listings}
+
+\graphicspath{{./img/}}
+\hypersetup{%
+	colorlinks=true,% hyperlinks will be coloured
+	linkcolor=black,% hyperlink text will be green
+	urlcolor=blue
+}
+
+\pagestyle{plain} 
+\author{Roberto Basla -- Politecnico di Milano}
+\date{Politecnico di Milano \\
+	School Of Industrial and Information Engineering  \\
+	Computer Science and Engineering \\
+	A.Y. 2021/2022}
+\title{Optimization project: Biscuit Optimizer}
+
+\fboxsep=1mm %padding thickness
+\fboxrule=0.1mm %border thickness
+
+\begin{document}	
+	\maketitle
+	\newpage
+	
+	\tableofcontents
+	\newpage
+	
+	\include{01-introduction}
+	
+	\include{02-models}
+	
+	\include{03-heuristics}
+	
+	\include{04-thesis}
+	
+	\include{05-conclusions}	
+	
+\end{document}

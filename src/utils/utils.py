@@ -63,7 +63,7 @@ def load_cutters(cutters_path: str, display: bool = False) -> list[dict[str, Any
 		cutter_mask = cv2.imread(os.path.join(cutters_path, image_name), cv2.IMREAD_GRAYSCALE)
 		cutters.append({
 			"name": cutter_name,
-			"mask": cutter_mask,
+			"mask": np.where(cutter_mask, 1, 0),
 			"value": int(cutter_value),
 			"area": np.count_nonzero(cutter_mask)
 		})
@@ -90,7 +90,7 @@ def crop_image(image: np.array, mask: np.array = None) -> np.array:
 	"""
 	if mask is None:
 		mask = image
-	mask = np.where(mask, 255, 0)
+	mask = np.where(mask, 1, 0)
 	y0 = np.min(np.argwhere(mask)[:, 0])
 	x0 = np.min(np.argwhere(mask)[:, 1])
 	y1 = np.max(np.argwhere(mask)[:, 0])
@@ -158,7 +158,7 @@ def display_cutters(cutters: list[dict[int, Any]]):
 	for i, cutter in enumerate(cutters):
 		x = math.floor(i / 3)
 		y = i % 3
-		axes[x, y].imshow(cutter["mask"], cmap="gray", vmin=0, vmax=255)
+		axes[x, y].imshow(cutter["mask"], cmap="gray", vmin=0, vmax=1)
 		axes[x, y].set_title(f"{cutter['name']}, c={cutter['value']}, a={cutter['area']}") 
 	figure.suptitle("Cookie cutters")
 
@@ -225,7 +225,7 @@ def show_cut_dough(dough_image: np.array, biscuit_images: dict[int, np.array],
 	for biscuit_id, coordinates in biscuit_coords.items():		
 		for coordinate in coordinates:
 			# Creates the 4-channel image
-			biscuit_array = np.stack((biscuit_images[biscuit_id], ) * 4, -1)
+			biscuit_array = np.stack((biscuit_images[biscuit_id], ) * 4, -1).astype(np.uint8)
 			# Sets the color and alpha from HSV to cycle them
 			biscuit_array[:, :, 3] = np.where(biscuit_array[:, :, 3], 175, 0)
 			color = tuple(int(channel * 255) for channel in colorsys.hsv_to_rgb(color_h, 1, 1))
@@ -272,3 +272,28 @@ def show_solution_time(all_solutions: list[dict[str, Any]]):
 	plt.xlabel("Time (s)")
 	plt.ylabel("Objective value")
 	plt.title("Time and value of each improving solution found")
+
+
+# ---------------
+# Model utilities
+# ---------------
+
+
+def can_host(base_mask: np.array, cutter_mask: np.array, n: int, m: int) -> bool:
+	"""
+	Checks if cutter_mask can be placed over base_mask in coordinates (n, m)
+	Args:
+		base_mask: The binary mask of the available dough
+		cutter_mask: The binary mask of the cutter to place
+		n: Row where to place cutter_mask
+		m: Column where to place cutter_mask
+	Returns:
+		True if the cutter mask falls entirely in the base_mask
+	"""
+	in_range = n + cutter_mask.shape[0] <= base_mask.shape[0] and m + cutter_mask.shape[1] <= base_mask.shape[1]
+	if not in_range:
+		# (n, m) is in OUT_i for cutter_mask i
+		return False
+	# Overlaps the two masks; if base_mask can entirely host cutter_mask, the result equals cutter_mask
+	masks_and = np.logical_and(base_mask[n:n+cutter_mask.shape[0], m:m+cutter_mask.shape[1]], cutter_mask)
+	return np.array_equal(masks_and, cutter_mask)

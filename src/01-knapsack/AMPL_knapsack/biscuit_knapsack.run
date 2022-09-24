@@ -5,9 +5,9 @@
 #
 # Run file for the knapsack problem
 reset;
-model "Project/knapsack/biscuit_knapsack.mod";
-data "Project/knapsack/biscuit_knapsack.dat";
-option solver 'C:/Users/rober/OneDrive - Politecnico di Milano/Documenti/Courses/Optimization/Laboratory/AMPL/Software/ampl_mswin64/cplex.exe';
+model "src/01-knapsack/AMPL_knapsack/biscuit_knapsack.mod";
+data "src/01-knapsack/AMPL_knapsack/knapsack/biscuit_knapsack.dat";
+option solver 'path/to/cplex.exe';
 option verbosity detailed;
 solve;
 

@@ -1,0 +1,20 @@
+# Optimization Project: Biscuit Optimizer
+# Roberto Basla
+# Politecnico di Milano
+# A.Y. 2021/2022
+#
+# Run file for the complete model
+reset;
+model "src/02-nesting/AMPL_nesting/nesting.mod";
+data "src/02-nesting/AMPL_nesting/nesting.dat";
+option solver 'path/to/cplex.exe';
+option verbosity detailed;
+option cplex_options 'time=40000';
+solve;
+
+display biscuit_value;
+display sum{i in CUTTERS, n in N, m in M} y[n, m, i];
+
+option omit_zero_rows 1;
+option omit_zero_cols 1;
+display y;
