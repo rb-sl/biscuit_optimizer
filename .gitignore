@@ -1,0 +1,9 @@
+# LaTeX files
+*.aux
+*.log
+*.out
+*.gz
+*.toc
+__pycache__
+
+report

@@ -1,0 +1,17 @@
+# Optimization Project: Biscuit Optimizer
+# Roberto Basla
+# Politecnico di Milano
+# A.Y. 2021/2022
+#
+# Run file for the knapsack problem
+reset;
+model "Project/knapsack/biscuit_knapsack.mod";
+data "Project/knapsack/biscuit_knapsack.dat";
+option solver 'C:/Users/rober/OneDrive - Politecnico di Milano/Documenti/Courses/Optimization/Laboratory/AMPL/Software/ampl_mswin64/cplex.exe';
+option verbosity detailed;
+solve;
+
+display B;
+display biscuit_value;
+display x;
+display sum{i in I} x[i];

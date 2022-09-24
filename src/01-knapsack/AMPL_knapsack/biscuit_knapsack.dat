@@ -1,0 +1,33 @@
+# Optimization Project: Biscuit Optimizer
+# Roberto Basla
+# Politecnico di Milano
+# A.Y. 2021/2022
+#
+# Data file for the integer knapsack model
+data;
+
+# Number of available cookie cutters, each representing a cookie cutter
+param n := 6;
+
+# Area of the available biscuit dough in pixels (corresponding to knapsack budget)
+param B := 13929;
+
+# Value of each cutter (corresponding to knapsack costs)
+param c :=
+1 1000
+2 1500
+3 500
+4 600
+5 200
+6 800
+;
+
+# Area cost of each cutter mask (corresponding to knapsack weights)
+param a :=
+1 593
+2 765
+3 216
+4 228
+5 289
+6 330
+;
