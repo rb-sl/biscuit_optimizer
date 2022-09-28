@@ -91,7 +91,7 @@ The set of linking constraints (\ref{eq:link_nest}) defines $z$ in function of $
 Finally, constraints (\ref{eq:freq_nest}) enforce the maximum difference between the most frequently chosen cutter and the most infrequent. (\ref{eq:def_y}) and (\ref{eq:def_z}) define the variables.
 
 \subsubsection{Results}
-Due to the NP-Hard nature of the nesting problem, all solvers needed to be limited in time: the execution limit was set to 40000 seconds (some minutes less than 12 hours) for all instances. This decision may be the cause of the three optimizers finding different (potentially only locally optimal) solutions, unlike in the knapsack case where they were able to solve the problem exactly. It should be also noted that Python solutions added a small preprocessing, effectively merging constraints (\ref{eq:out_nest}) and (\ref{eq:in_nest}) in the form
+Due to the NP-Hard nature of the nesting problem, all solvers needed to be limited in time: the execution limit was set to 40000 seconds (some minutes less than 12 hours) for all instances. This decision may be the cause of the three optimizers finding different (locally optimal) solutions, unlike in the knapsack case where they were able to solve the problem exactly. It should be also noted that Python solutions added a small preprocessing, effectively merging constraints (\ref{eq:out_nest}) and (\ref{eq:in_nest}) in the form
 \begin{lstlisting}[language=Python]
 for i in I:
   for n in N:
