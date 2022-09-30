@@ -14,26 +14,30 @@ This is a case of nesting problem, i.e. a two-dimensional cutting and packing pr
 \subsubsection{Available dough}
 The available dough is represented by an image $P \in \mathbb{R}^{n \times m \times 3}$, where $n$ and $m$ are respectively the number of rows and columns, while $3$ refers to the color channels. The photo used for this project (\href{https://www.buttalapasta.it/ricette/ricetta-biscotti-al-latte/25247/}{source}) was cropped and subsampled (from the initial $n=180$, $m=192$ to $n=125$ and $m=134$) in order to simplify the problem. From this image, a binary mask encoding the usable area was manually drawn, thus obtaining the Dough bitmask $B \in \{0, 1\}^{n \times m}$ in Figure \ref{fig:input_dough}.
 
-\begin{figure}[H]
-	\centering	
-	\includegraphics[width=\textwidth, keepaspectratio]{01-intro/subsampled_dough}
-	\caption{Input dough and its binary mask (134×125 pixels)}
-	\label{fig:input_dough}
-\end{figure}
-
 \subsubsection{Cookie cutters}
 Cutter masks were hand drawn and assigned arbitrary values, as per Figure \ref{fig:cutters}; they will be the cookie cutters that need to be overlayed to the input image to "cut" it and obtain the final biscuits. These bitmasks will be referenced as $b_i$, while each pixel corresponds to $b_{i, h, k} \quad \forall h \in R_i, \forall k \in C_i$, where $R_i$ and $C_i$ represent respectively the set of rows and the set of columns of bitmask $i$.
 
-\begin{figure}[H]
-	\centering	
-	\includegraphics[width=.7\textwidth, keepaspectratio]{01-intro/cutters}
-	\caption{Cutters' binary masks}
-	\label{fig:cutters}
+\begin{figure}[p]
+	\begin{subfigure}{\textwidth}
+		\centering	
+		\includegraphics[width=\textwidth, keepaspectratio]{01-intro/subsampled_dough}
+		\caption{Input dough and its binary mask (134×125 pixels)}
+		\label{fig:input_dough}
+	\end{subfigure}
+	
+	\begin{subfigure}{\textwidth}
+		\centering	
+		\includegraphics[width=.8\textwidth, keepaspectratio]{01-intro/cutters}
+		\caption{Cutters' binary masks}
+		\label{fig:cutters}
+	\end{subfigure}
 \end{figure}
+
+\newpage
 
 \subsection{Technology}
 This project was developed with both AMPL and Jupyter Notebooks using the following technologies:
-\begin{itemize}[itemsep=-1mm, topsep=-1mm]
+\begin{itemize}[itemsep=-1mm, topsep=0mm]
 	\item AMPL with CPLEX solver
 	\item Python with Google's OR-Tools optimization suite and CP-SAT solver
 	\item Python with Gurobi's API and solver

@@ -44,7 +44,7 @@ Figure \ref{fig:knapsack} shows the types of biscuits resulting from the optimiz
 	\label{fig:knapsack}
 \end{figure}
 
-\subsection{Nesting model}
+\subsection{Nesting model}\label{sec:nesting}
 The complete nesting model takes into account the initial mask and the cutter masks (so that they do not overlap). The solution is achieved through a set of binary variables $y$ over sets $I$ (the set of cutters), $N$ (the set of rows in the dough mask) and $M$ (the set of columns in the dough mask). $y_{i, n, m}$ is equal to 1 if a cutter $i$ is placed on the dough mask such that its top left corner is on the $(n, m)$ pixel in the mask.
 
 In addition to sets and parameters already defined, the additional sets $\textrm{IN}_i$ and $\textrm{OUT}_i$ need to be defined as
@@ -54,7 +54,7 @@ In addition to sets and parameters already defined, the additional sets $\textrm
 \end{alignat}
 Naturally, it follows from the definition that $\textrm{IN}_i \cap \textrm{OUT}_i = \emptyset$ and $\textrm{IN}_i \cup \textrm{OUT}_i = B$, where $B$ represents the dough bitmask.
 These sets need the additional parameters:
-\begin{itemize}[itemsep=-1mm, topsep=-1mm]
+\begin{itemize}[itemsep=-1mm, topsep=0mm]
 	\item $N_{max}$: number of rows of the dough mask
 	\item $M_{max}$: number of columns of the dough mask
 	\item $R_{i,max}$: number of rows of cutter $i$

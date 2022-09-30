@@ -6,4 +6,9 @@
 *.toc
 *.blg
 *.bbl
+
+# Python files
 __pycache__
+
+# Extra images
+img/nuclei
