@@ -89,9 +89,11 @@ Path Relinking aims at exploring trajectories connecting solutions obtained by t
 	\item Mixed Path Relinking: the origin of the two solution is changed at each iteration
 	\item Evolutionary Path Relinking: every $e$ steps of any of the previous variants the solutions in the elite pool are relinked among themselves
 \end{itemize}
-The only change with respect to the algorithm description in the was the addition of a tabu list to the local search phase containing the initial solution and the guiding solution: in fact, many solutions close to them tend to fall back into the local optimum found by GRASP.
+The only changes with respect to the algorithm description in the paper were the addition of a tabu list to the local search phase containing the initial and guiding solutions (in fact, many solutions close to them tend to fall back into the local optimum found by GRASP), and limiting the minimum distance of new elite solutions when the pool is not full as well.
 
 \subsubsection{Results}
+GRASP and its Path Relinking variant were able to consistently reach and exceed the values obtained by nesting model of section \ref{sec:nesting}. Table \ref{tab:grasp_results} contains the best results for each of the implemented strategies.
+
 \paragraph{GRASP} GRASP heuristics were run 100 times to assess the average value of solutions, which is close to that of the best heuristic in Section \ref{sec:greedy} (being 16834, obtained in 17315.07s). However, it was able to reach higher values as shown in Figure \ref{fig:grasp_100}, and considering that GRASP's result are actually given by the best one among a number of iterations (instead of just one as in the test), it is able to consistently outperform the previously considered heuristics. An example using 5 iterations is reported in Table \ref{tab:grasp_results}.
 
 \paragraph{Path Relinking} Path Relinking proved to be a good enhancement: the following output shows an example where solutions with values 16900 and 17900 generated a solution with value 17400 (the best one along the path), which led to the best solution after local search.
@@ -114,9 +116,9 @@ The only change with respect to the algorithm description in the was the additio
 		Best solution after local search (2 improvements / 2335 checked): v=18300
 	\end{verbatim}
 \end{footnotesize}
-This enhancement was not tested for 100 steps as the output is not independent from previous iterations. However, path relinking was able to find a better solution than the Python models at 18500 (shown in Figure \ref{fig:pr_18500}). 
+An example of Path Relinking and Local Search is displayed in Figure \ref{fig:path_relinking}. This enhancement was not tested for 100 steps as the output is not independent from previous iterations. However, it was able to find a better solution than the Python models at 18500 (shown in Figure \ref{fig:pr_18500}). 
 
-
+Finally, the following output shows an example of successful evolution, where the new elite pool consists in the result for \texttt{k=4}:
 \begin{footnotesize}
 	\begin{verbatim}
 		k=1: [16800,17100,16900]             => [17300,16900,16800,17000,16600]
@@ -126,35 +128,55 @@ This enhancement was not tested for 100 steps as the output is not independent f
 	\end{verbatim}
 \end{footnotesize}
 
-\begin{figure}[H]
+\begin{figure}[p]
 	\centering
-	\begin{subfigure}{.7\textwidth}
+	\begin{subfigure}[b]{.49\textwidth}
 		\centering
-		\fbox{\includegraphics[width=\textwidth]{03-heuristics/grasp_100}}
+		\includegraphics[width=\textwidth]{03-heuristics/paths/cut_pr_over}
+		\caption{3D Path Relinking plot}
+		\label{fig:pr_over}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{.49\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{03-heuristics/paths/cut_pr_v_start}
+		\caption{Projection over distance from the starting solution and value}
+		\label{fig:pr_v_start}
+	\end{subfigure}
+	\caption{Path Relinking plot. Shows the starting solution (cyan), the guiding solution (orange) and the relinking path (blue). The Local Search path is in green, while the best final solution is gold. Axes correspond to distance from the starting solution, distance from the guiding solution and value.}
+	\label{fig:path_relinking}
+\end{figure}
+
+\begin{figure}[p]
+	\centering
+	\begin{subfigure}[b]{.49\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{03-heuristics/grasp_100}
 		\caption{100 single GRASP iterations}
 		\label{fig:grasp_100}
 	\end{subfigure}
-	\begin{subfigure}{.7\textwidth}
+	\hfill
+	\begin{subfigure}[b]{.49\textwidth}
 		\centering
-		\fbox{\includegraphics[width=\textwidth]{03-heuristics/pr_18500}}
+		\includegraphics[width=\textwidth]{03-heuristics/pr_18500}
 		\caption{Best Path Relinking solution}
 		\label{fig:pr_18500}
 	\end{subfigure}
+	\label{fig:grasp_results}
+	\caption{GRASP results}
 \end{figure}
 
 \vspace{20px}
 
-Table \ref{tab:grasp_results} contains the best results for each of the implemented strategies.
-
 \begin{center}
-	\begin{tabular}{r|c|c}
-		Heuristic							& Best value	& Time to result 		\\
+	\begin{tabular}{r|c|c|c}
+		Heuristic							& Best value	& Iterations	& Time (s)	\\
 		\hline
-		GRASP 								& 17800			& 317.77s (63.55s/it) 	\\
-		Forward Path Relinking				&  		&  						\\
-		Backward Path Relinking				& 			&  						\\
-		Mixed Path Relinking 				&  			& 						\\
-		Evolutionary Mixed Path Relinking	& 			& 						\\
+		GRASP 								& 17800			& 5				& 317.77	\\
+		Forward Path Relinking				& 18500 		& 10 			& 2765.12	\\
+		Backward Path Relinking				& 18300			& 10  			& 2761.82	\\
+		Mixed Path Relinking 				& 18300			& 10	 		& 2776.01	\\
+		Evolutionary Mixed Path Relinking	& 18300			& 20			& 9687.86	\\
 	\end{tabular}
 	\captionof{table}{\label{tab:grasp_results}GRASP and Path Relinking results}
 \end{center}
