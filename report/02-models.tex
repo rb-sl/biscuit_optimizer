@@ -45,7 +45,7 @@ Figure \ref{fig:knapsack} shows the types of biscuits resulting from the optimiz
 \end{figure}
 
 \subsection{Nesting model}\label{sec:nesting}
-The complete nesting model takes into account the initial mask and the cutter masks (so that they do not overlap). The solution is achieved through a set of binary variables $y$ over sets $I$ (the set of cutters), $N$ (the set of rows in the dough mask) and $M$ (the set of columns in the dough mask). $y_{i, n, m}$ is equal to 1 if a cutter $i$ is placed on the dough mask such that its top left corner is on the $(n, m)$ pixel in the mask.
+The complete nesting model takes into account the initial mask and the cutter masks (so that they do not overlap). The solution is achieved through a set of binary variables $y$ over sets $I$ (the set of cutters), $N$ (the set of rows in the dough mask) and $M$ (the set of columns in the dough mask). $y_{i, n, m}$ is equal to 1 if a cutter $i$ is placed on the dough mask such that its top left corner is on the $(n, m)$ pixel in the mask and 0 otherwise.
 
 In addition to sets and parameters already defined, the additional sets $\textrm{IN}_i$ and $\textrm{OUT}_i$ need to be defined as
 \begin{alignat}{1}
@@ -84,7 +84,7 @@ z_{i, n, m} & \geq 0 && \forall i \in I, \forall n \in N, \forall m \in M \label
 
 The objective function (\ref{eq:obj_nest}) is equivalent to the knapsack objective (\ref{eq:obj_knapsack}) (as $\sum_{n \in N}{\sum_{m \in M}{y_{i,n,m}}} = x_i \quad \forall i \in I$) and thus maximizes the overall value of chosen cutters. 
 
-Constraint set (\ref{eq:out_nest}) enforces that the optimizer cannot place cutters that would result in partially cut-out biscuits due to the dough mask not being able to host them whole (thus operates on $\textrm{OUT}_i$); on the other hand, constraint set (\ref{eq:in_nest}) operates on the $\textrm{IN}_i$ sets and enforces that an $y_{i, n, m}$ may be selected only if the active pixels of cutter mask $i$ on $(n, m)$ fall on active pixels of the dough mask starting from $(n, m)$ up to $(n+R_i, m+C_i)$; it consists in the linearization of an AND operation. 
+Constraint set (\ref{eq:out_nest}) enforces that the optimizer cannot place cutters that would result in partially cut-out biscuits due to the dough mask not being able to host them whole (thus operates on $\textrm{OUT}_i$); on the other hand, constraint set (\ref{eq:in_nest}) operates on $\textrm{IN}_i$ sets and enforces that a $y_{i, n, m}$ may be selected only if the active pixels of cutter mask $i$ on $(n, m)$ fall on active pixels of the dough mask starting from $(n, m)$ up to $(n+R_i, m+C_i)$; it consists in the linearization of an AND operation. 
 
 The set of linking constraints (\ref{eq:link_nest}) defines $z$ in function of $y$ so that the value of a $y_{i, n-h+1, m-k+1}$ (i.e., in the range defined by the cutter mask's dimension) is added to $z_{i, n, m}$ only if the cutter bitmask $b_{i, h, k}$ is active. Constraints (\ref{eq:overlap_nest}) enforce the non-overlapping property of the model by limiting the sum of active masks at each pixel $(n, m)$ in the dough mask.
 
@@ -99,7 +99,7 @@ for i in I:
       if not can_host(dough_mask, cutter_mask, n, m):
         model.addConstr(y[n, m, i] == 0)
 \end{lstlisting}
-Effectively reducing the number of constraints by checking a priori with the \texttt{can\_host} function if a cutter $i$ could be placed in $(n, m)$ and, if not, just forcing $y_{i, n, m}$ to 0.
+Effectively reducing the number of constraints by checking beforehand with the \texttt{can\_host} function if a cutter $i$ could be placed in $(n, m)$ and, if not, just forcing $y_{i, n, m}$ to 0.
 
 Models and results are available in the GitHub repository \\ \href{https://github.com/rb-sl/biscuit_optimizer/tree/main/src/02-nesting}{rb-sl/biscuit\_optimizer/src/02-nesting}.
 
@@ -129,23 +129,21 @@ Gurobi was able to reach the objective value of 17800 (using the same cutters) a
 	\hfill
 	\begin{subfigure}[b]{.43\textwidth}
 		\centering
-		\fbox{\includegraphics[width=\textwidth]{02-modeling/nest_ampl_visualization}}
+		\includegraphics[width=\textwidth]{02-modeling/nest_ampl_visualization}
 		\caption{AMPL biscuits result}
 		\label{fig:ampl_nest_vis}
 	\end{subfigure}
-
-	\vfill
-	
+	\vfill	
 	\begin{subfigure}[b]{.43\textwidth}
 		\centering
-		\fbox{\includegraphics[width=\textwidth]{02-modeling/nest_ortools_overlay}}
+		\includegraphics[width=\textwidth]{02-modeling/nest_ortools_overlay}
 		\caption{OR-Tools/CP-SAT solution}
 		\label{fig:ortools_nest_overlay}
 	\end{subfigure} 
 	\hfill
 	\begin{subfigure}[b]{.43\textwidth}
 		\centering
-		\fbox{\includegraphics[width=\textwidth]{02-modeling/nest_ortools_visualization}}
+		\includegraphics[width=\textwidth]{02-modeling/nest_ortools_visualization}
 		\caption{OR-Tools biscuits result}
 		\label{fig:ortools_nest_vis}
 	\end{subfigure}
@@ -154,14 +152,14 @@ Gurobi was able to reach the objective value of 17800 (using the same cutters) a
 	
 	\begin{subfigure}[b]{.43\textwidth}
 		\centering
-		\fbox{\includegraphics[width=\textwidth]{02-modeling/nest_gurobi_overlay}}
+		\includegraphics[width=\textwidth]{02-modeling/nest_gurobi_overlay}
 		\caption{Gurobi solution}
 		\label{fig:gurobi_nest_overlay}
 	\end{subfigure} 
 	\hfill
 	\begin{subfigure}[b]{.43\textwidth}
 		\centering
-		\fbox{\includegraphics[width=\textwidth]{02-modeling/nest_gurobi_visualization}}
+		\includegraphics[width=\textwidth]{02-modeling/nest_gurobi_visualization}
 		\caption{Gurobi biscuits result}
 		\label{fig:gurobi_nest_vis}
 	\end{subfigure}

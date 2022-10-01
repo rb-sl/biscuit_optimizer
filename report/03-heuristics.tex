@@ -3,8 +3,8 @@
 % Politecnico di Milano
 % A.Y. 2021/2022
 
-\section{Heuristic solutions}
-As the solvers were not able to find a solution in a reasonable, some heuristics were devised to tackle the problem. Python notebooks ot the experiments are available in the GitHub repository  \href{https://github.com/rb-sl/biscuit_optimizer/tree/main/src/03-heuristics}{rb-sl/biscuit\_optimizer/src/03-heuristics}.
+\section{Heuristic solutions}\label{sec:heuristics}
+As the solvers were not able to find a solution in a reasonable time, some heuristics were devised to tackle the problem. Python notebooks ot the experiments are available in the GitHub repository  \href{https://github.com/rb-sl/biscuit_optimizer/tree/main/src/03-heuristics}{rb-sl/biscuit\_optimizer/src/03-heuristics}.
 
 \subsection{Greedy heuristics}\label{sec:greedy}
 The first set of heuristics tries to solve the nesting problem greedily. In order to do so, a series of cost map encoding the cost of activating a variable \texttt{y[i, n, m]} (i.e., placing a cutter of type $i$ at coordinates $(n, m)$) was defined:
@@ -46,9 +46,8 @@ Table \ref{tab:heuristics_results} reports average values and time for the simul
 	\label{fig:heuristics_results}
 \end{figure}
 
-
 \subsection{GRASP}
-The last class of implemented heuristics is Greedy Randomized Adaptive Search Procedures as described by Resende and Ribeiro\cite{grasp}. This class of heuristics is composed of two main phases that are iterated a number of times.
+The last class of implemented heuristics is Greedy Randomized Adaptive Search Procedures as described by Resende and Ribeiro\cite{grasp}. It is composed of two main phases that are iterated a number of times.
 
 \paragraph{Greedy Randomized Construction} This phase builds a solution by first creating a Restricted Candidate List (RCL) containing elements with the smallest incremental cost as defined by the cost map. Elements $e = (i, n, m)$ are chosen to be part of the RCL if their cost $c(e)$ is
 $$
@@ -60,7 +59,7 @@ For some choice of $\alpha$. The next element is chosen randomly from the RCL.
 
 \vspace{20px}
 
-Differently from previous heuristics, the solutions are now encoded as 3D NumPy arrays of shape $n_{cutters} \times n_{rows} \times n_{columns}$ (from now on, cubes) that correspond to variables $y$ in Section \ref{sec:nesting}:
+While previous heuristics encoded solutions as human-readable Python dictionaries, results are now encoded as 3D NumPy arrays of shape $n_{cutters} \times n_{rows} \times n_{columns}$ that correspond to variables $y$ in Section \ref{sec:nesting}:
 \begin{equation}\notag
 	y_{i, n, m} = 
 	\begin{cases}
@@ -76,7 +75,7 @@ i.e. the number of different elements between the starting solution $s$ and the 
 
 This project's implementation made some changes with respect to the paper's description, namely:
 \begin{itemize}[itemsep=-1mm, topsep=0mm]
-	\item The Greedy Randomized Construction phase doesn't stop in order to avoid impeding the construction of a feasible solution with the remaining cutters for performance purposes: this change improved the construction time to 2s from 21s (on average)
+	\item The Greedy Randomized Construction phase doesn't stop in order to avoid impeding the construction of a feasible solution with the remaining cutters for performance purposes: this change improved the construction time to 2s from 21s (on average) without impacting the quality of solutions
 	\item The Greedy Randomized Construction phase doesn't build infeasible solutions, so the repair procedure is not needed
 	\item The Local Search used two additional parameters limiting the maximum total time and the maximum time between improvements, as the neighborhood exploration is the slowest phase (even if it can be faster when starting from a good solution\cite{local_search})
 \end{itemize}
@@ -89,10 +88,10 @@ Path Relinking aims at exploring trajectories connecting solutions obtained by t
 	\item Mixed Path Relinking: the origin of the two solution is changed at each iteration
 	\item Evolutionary Path Relinking: every $e$ steps of any of the previous variants the solutions in the elite pool are relinked among themselves
 \end{itemize}
-The only changes with respect to the algorithm description in the paper were the addition of a tabu list to the local search phase containing the initial and guiding solutions (in fact, many solutions close to them tend to fall back into the local optimum found by GRASP), and limiting the minimum distance of new elite solutions when the pool is not full as well.
+The only changes with respect to the algorithm description in the paper were the addition of a tabu list to the local search phase containing the initial and guiding solutions (otherwise many solutions tend to fall back into local optima found by GRASP), and limiting the minimum distance of new elite solutions when the pool is not full as well.
 
 \subsubsection{Results}
-GRASP and its Path Relinking variant were able to consistently reach and exceed the values obtained by nesting model of section \ref{sec:nesting}. Table \ref{tab:grasp_results} contains the best results for each of the implemented strategies.
+GRASP and its Path Relinking variant were able to consistently reach and exceed the values obtained by nesting models of section \ref{sec:nesting}. Table \ref{tab:grasp_results} contains the best results for each of the implemented strategies.
 
 \paragraph{GRASP} GRASP heuristics were run 100 times to assess the average value of solutions, which is close to that of the best heuristic in Section \ref{sec:greedy} (being 16834, obtained in 17315.07s). However, it was able to reach higher values as shown in Figure \ref{fig:grasp_100}, and considering that GRASP's result are actually given by the best one among a number of iterations (instead of just one as in the test), it is able to consistently outperform the previously considered heuristics. An example using 5 iterations is reported in Table \ref{tab:grasp_results}.
 
@@ -116,7 +115,7 @@ GRASP and its Path Relinking variant were able to consistently reach and exceed 
 		Best solution after local search (2 improvements / 2335 checked): v=18300
 	\end{verbatim}
 \end{footnotesize}
-An example of Path Relinking and Local Search is displayed in Figure \ref{fig:path_relinking}. This enhancement was not tested for 100 steps as the output is not independent from previous iterations. However, it was able to find a better solution than the Python models at 18500 (shown in Figure \ref{fig:pr_18500}). 
+An example of Path Relinking and Local Search is displayed in Figure \ref{fig:path_relinking}. This enhancement was not tested for 100 steps as the output is not independent from previous iterations. However, it was able to find a better solution than the Python models with value 18500 (shown in Figure \ref{fig:pr_18500}). 
 
 Finally, the following output shows an example of successful evolution, where the new elite pool consists in the result for \texttt{k=4}:
 \begin{footnotesize}
