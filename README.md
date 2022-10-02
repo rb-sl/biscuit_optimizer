@@ -43,8 +43,11 @@ reach the top models' results.
 The final approach to the problem was an implementation of GRASP as per the References' papers.
 These heuristics with Path Relinking were able to reach higher values with respect to full models.
 
+![](report/img/path_relinking_300.png)
+
 ## Extra: image augmentation applications
-In order to show the generality of the solution, the nesting problem was applied to the augmentation of histological images.
+In order to show the generality of the solution, the nesting problem was applied to the augmentation of histological 
+images.
 
 ## Results
 The following table summarizes the best results for each strategy:
@@ -61,7 +64,8 @@ The following table summarizes the best results for each strategy:
 | Nesting          | GRASP (Path Relinking) | 18500      | 2765.12      |
 
 ## Repo structure
-The repo is organized in the following folders.
+The repo top level folder contains the report and the final presentation. The project is organized in the following
+folders.
 
 ### img
 This folder contains the input images.
@@ -71,8 +75,6 @@ This folder contains the final report's source and images.
 
 ### src
 This is the folder for notebooks and models, divided by the task they were solving.
-
-The top level folder contains the report and the final presentation.
 
 ## References
 [1] Resende, Mauricio & Ribeiro, Celso. (2010). Greedy randomized adaptive search procedures: Advances and applications.

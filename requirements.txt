@@ -1,0 +1,6 @@
+gurobipy==9.5.2
+matplotlib==3.5.2
+numpy==1.23.3
+opencv_python==4.6.0.66
+ortools==9.3.10497
+Pillow==9.2.0

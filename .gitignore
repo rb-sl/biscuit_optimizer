@@ -6,6 +6,7 @@
 *.toc
 *.blg
 *.bbl
+report/*.pdf
 
 # Python files
 __pycache__

@@ -65,19 +65,19 @@ The notebook available at \href{https://github.com/rb-sl/biscuit_optimizer/blob/
 Augmentations usually rely on some randomization in order to create different types of images. In this context, the usage of the mask's gradient can help in enlarging or shrinking the actual nucleus mask, allowing to pack them differently and, if necessary to teach the network, overlap them. Figure \ref{fig:aug_margin} shows three examples of augmented images obtained by modifying the mask and using the previous heuristic.
 \begin{figure}[H]
 	\centering
-	\begin{subfigure}[b]{.3\textwidth}
+	\begin{subfigure}[b]{.32\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{04-nuclei/aug_margin_-1}
 		\caption{Lower margin (-1)}
 		\label{fig:lower_margin}
 	\end{subfigure}
-	\begin{subfigure}[b]{.3\textwidth}
+	\begin{subfigure}[b]{.32\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{04-nuclei/aug_margin_5}
 		\caption{Higher margin (+5)}
 		\label{fig:higher_margin}
 	\end{subfigure} 
-	\begin{subfigure}[b]{.3\textwidth}
+	\begin{subfigure}[b]{.32\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{04-nuclei/aug_margin_random}
 		\caption{Random margin}
